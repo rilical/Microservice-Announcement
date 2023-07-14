@@ -1,4 +1,5 @@
 .env
 Microservice Announcement.sql
-package.json
-package-lock.json
+/package-lock.json
+/package.json
+/node-modules
