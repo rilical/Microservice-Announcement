@@ -10,20 +10,19 @@ const limiter = rateLimit({
     max: 100
 });
 
-router.post('/', auth, limiter, [
+router.post('/create', limiter, [
     // Validation middleware
-    check('platform_id').notEmpty().isNumeric().withMessage("Platform ID is required"),
     check('platform_name').notEmpty().withMessage('Platform name is required'),
     check('platform_description').notEmpty().withMessage('Platform description is required')
     ],
     platformController.createPlatform);
 
-router.post('/fetch', auth, limiter,  [
+router.get('/fetch', limiter,  [
     // Validation middleware
     check('platform_id').optional().isNumeric().withMessage('Platform ID must be a number')], 
-    platformController.fetchPlatform);
+    platformController.getAll);
 
-router.put('/update', auth, limiter,
+router.put('/update', limiter,
     [
     check('platform_id').isNumeric().withMessage('Platform ID must be a number'),
     check('platform_name').optional().isString().withMessage('Platform Name must be a string'),
@@ -32,7 +31,7 @@ router.put('/update', auth, limiter,
     platformController.updatePlatform);
 
 
-router.delete('/delete', auth, limiter, [
+router.delete('/delete', limiter, [
         check('platform_id').isNumeric().withMessage('Platform ID must be a number')], 
         platformController.deletePlatform);
 

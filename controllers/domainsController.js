@@ -20,29 +20,14 @@ class domainsController {
         }
     }
 
-    static async fetchDomain(req, res) {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
-        }
-        try {
-            if (req.body.domain_id) {
-                // Fetch a single announcement
-                const domain = await Domains.findByPk(req.body.domain_id);
-                if (!domain) {
-                    return res.status(404).json({ error: "Domain not found" });
-                } else {
-                    return res.status(200).json(domain);
-                }
-            } else {
-                // Fetch all announcements
-                const domain = await Domains.findAll();
-                return res.status(200).json(domain);
-            }
-        } catch(err) {
-            console.error(err);
-            res.status(500).json({ error: "An error occurred while fetching the Domain(s)" });
-        }
+    static async getAll(req, res) {
+      try {
+          const domains = await Domains.findAll(); // Corrected here
+          return res.json(domains);
+      } catch (err) {
+          console.error(err);
+          return res.status(500).json({ error: 'An error occurred while fetching platforms.' });
+      }
     }
 
     static async updateDomain(req, res) {
